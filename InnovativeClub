@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+
+contract InnovativeClub {
+    uint public joiningFee;
+    bool public isRegistrationOpen = true;
+    
+    struct Person {
+        bool hasCrackedInterview;
+    }
+    
+    mapping(address => Person) public members;
+    
+    function registration(uint _joiningFee) external {
+        assert(_joiningFee <= 1000);
+        
+        if (_joiningFee > 500) {
+            revert("Premium membership is given");
+        }
+        
+        joiningFee = _joiningFee;
+    }
+    
+    function selectPerson(address _person, bool _crackedInterview) external {
+        require(_crackedInterview, "Not eligible to join club");
+        members[_person].hasCrackedInterview = _crackedInterview;
+    }
+}
